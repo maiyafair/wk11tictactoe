@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic~Tac~Toe</title>
+
+    <link rel="stylesheet" href="/">
+    <link rel="stylesheet" href="style.css">
+    <script src="index.js"></script>
+<style>
+
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(3, 100px);
+        margin: 20px auto;
+    } 
+    /* this is style the game in CSS */
+
+    .square {
+        display: flex; 
+        align-items: center;
+        justify-content: center;
+        border: 3px solid #4657; 
+        height: 100px;
+        font-size: large;
+        cursor: pointer
+    }
+    /*  Here this block of code is going to center the game, create and color border, fix height for sales*/
+    /* .square is used to select each square  */
+    .alert { display: none; }
+    /* this will hide the alert */
+
+    </style>
+
+</head>
+<body>
+    <h1>TIC~TAC~TOE</h1>
+    <div class="grid">
+        <div class="div col square" id="0"></div>
+        <div class="div col square" id="1"></div>
+        <div class="div col square" id="2"></div>
+        <div class="div col square" id="3"></div>
+        <div class="div col square" id="4"></div>
+        <div class="div col square" id="5"></div>
+        <div class="div col square" id="6"></div>
+        <div class="div col square" id="7"></div>
+        <div class="div col square" id="8"></div>
+    </div>
+<!-- div has three classes and grouping them together.  Each numbered Id is for the square that is selected -->
+    <button id="reset">Reset</button>
+    <!-- above creating columns for game and adding a reset button -->
+     <div id="status">X Turn</div>
+
+    <script>
+        const squares = document.querySelectorAll('.square');
+        const statusDisplay = document.getElementById('status');
+        const resultDiv = document.getElementById('result');
+// declaring a variable and squares is storing the element selected
+// document represents the webpage and allows JS to interact to interact with it.
+// queryselectorall is similar to an array, but returns a nodelist and will select square in the blocked of div
+
+
+        let board = Array(9).fill(null);
+        let currentPlayer = 'X';
+        
+        squares.forEach((square, index) => {
+            square.addEventListener('click', () => {
+                if (board[index]  || resultDiv.textContent) return;
+                // event listener is track moves, checks winner and switches who turn it is
+
+                board[index] = currentPlayer;
+                square.textContent = currentPlayer;
+                // here the board will present each players X or O symbol
+                // board is an array to follow each player move
+
+                checkWinner()
+
+                currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+                statusDisplay.textContent = `${currentPlayer} Turn`;
+                // each player's turn is updated
+
+            }
+        }
+
+        document.getElementById('reset').addEventListener('click', resetGame);
+    
+        function checkWinner() {
+            const winningCombinations = [
+            [0, 1, 2], [3, 4, 5], [6, 7, 8],
+            [0, 3, 6], [1, 4, 7], [2, 5, 8],
+            [0, 4, 8], [2, 4, 6] 
+            ];
+
+            for (const [a, b, c] of winningCombinations) {
+                if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+                    resultDiv.textContent = `${board[a]} winner, winner, chicken dinner!`;
+                    resultDiv.style.display = 'block';
+                    return;
+                }
+            }
+
+            if (board.includes(null)) {
+                resultDiv.textContent = "It's a Draw!";
+                resultDiv.style.display = 'block';
+            }
+        }
+
+        function resetGame() {
+            board.fill(null);
+            squares.forEach(square => square.textContent = '');
+            currentPlayer = 'X';
+            statusDisplay.textContent = `${currentPlayer} Turn`;
+            resultDiv.style.display = 'none';
+        }
+// null indicating there are no values
+    </script>
+
+    
+   
+
+
+
+</body>
+</html>
