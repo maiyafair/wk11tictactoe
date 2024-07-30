@@ -65,8 +65,9 @@
         let currentPlayer = 'X';
         
         squares.forEach((square, index) => {
-            square.addEventListener('click', () => {
-                if (board[index]  || resultDiv.textContent) return;
+        square.addEventListener("click", () => {
+          console.log("Result Div: ", resultDiv);
+          if (board[index] || resultDiv.textContent) return;
                 // event listener is track moves, checks winner and switches who turn it is
 
                 board[index] = currentPlayer;
@@ -76,14 +77,14 @@
 
                 checkWinner()
 
-                currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
-                statusDisplay.textContent = `${currentPlayer} Turn`;
+                currentPlayer = currentPlayer === "X" ? "O" : "X";
+          statusDisplay.textContent = `${currentPlayer} Turn`;
                 // each player's turn is updated
 
-            }
-        }
+            });
+        });
 
-        document.getElementById('reset').addEventListener('click', resetGame);
+        document.getElementById("reset").addEventListener("click", resetGame);
     
         function checkWinner() {
             const winningCombinations = [
